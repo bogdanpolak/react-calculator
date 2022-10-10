@@ -1,8 +1,7 @@
 import { useEffect } from "react";
 import { useState } from "react";
-import { calculatorView } from "./CalculatorView";
+import { calculatorView, Segment } from "./CalculatorView";
 import { CalculatorSegment } from "./CalculatorSegment";
-import { Segment } from "./Segment";
 
 export default function Calculator() {
   const [total, setTotal] = useState();

@@ -1,10 +1,23 @@
-import { Segment } from "./Segment";
+export const Segment = {
+  First: "First",
+  Second: "Second",
+  Third: "Third",
+  Fourth: "Fourth",
+};
+
+const Segments = [
+  { name: Segment.First, field: "first" },
+  { name: Segment.Second, field: "second" },
+  { name: Segment.Third, field: "third" },
+  { name: Segment.Fourth, field: "fourth" },
+];
 
 class CalculatorView {
   constructor() {
     this.first = 0;
     this.second = 0;
     this.third = 0;
+    this.fourth = 0;
     this.total = 0;
     this.onDisplayTotal = null;
   }
@@ -14,16 +27,22 @@ class CalculatorView {
   };
 
   setSegment = (componentName, value) => {
-    if (componentName !== Segment.First && componentName !== Segment.Second 
-      && componentName !== Segment.Third)
+    const segmentDef = Segments.find((seg) => seg.name === componentName);
+    if (!segmentDef)
       throw Error(
-        `Invalid segment name. Actual parameter: '${componentName}' is not any of expected ${Segment.First} or ${Segment.Second}`
+        `Invalid segment name. Actual parameter: '${componentName}' is not any of expected:` +
+          ` ${Segments.map((seg) => seg.name).join(" or ")}`
       );
-    componentName === Segment.First && (this.first = value);
-    componentName === Segment.Second && (this.second = value);
-    componentName === Segment.Third && (this.third = value);
-    this.total = Number(this.first) + Number(this.second) + Number(this.third);
-    this.onDisplayTotal && this.onDisplayTotal();
+    this[segmentDef.field] = value;
+    this.recalculateTotal();
+    if (this.onDisplayTotal) {
+      this.onDisplayTotal();
+    }
   };
+
+  recalculateTotal = () => {
+    this.total = Number(this.first) + Number(this.second) + Number(this.third) + Number(this.fourth);
+  }
 }
+
 export const calculatorView = new CalculatorView();
